@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lab1_v2\Lab1_v2.csproj" />
+    <ProjectReference Include="..\Lab2_v2\Lab2_v2.csproj" />
   </ItemGroup>
 
   <ItemGroup>
