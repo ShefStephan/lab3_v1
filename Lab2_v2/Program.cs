@@ -32,8 +32,7 @@ internal class Program
             context.Database.EnsureCreated();
         }
         
-
-
+        
         // список команда без аргументов и с аргументами
         var commWithoutArgsList = new List<string>() { "penup", "pendown", "history", "listfigures" };
 
@@ -107,12 +106,11 @@ internal class Program
             {
                 Console.WriteLine("Invalid argument, please try again or check command list");
             }
-
-
-            // catch (NullReferenceException ex)
-            // {
-            //     Console.WriteLine("empty...");
-            // }
+            
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine("empty...");
+            }
         }
 
         Console.WriteLine("GAME END");

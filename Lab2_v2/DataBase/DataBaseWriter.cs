@@ -13,7 +13,7 @@ public class DataBaseWriter
                 CommandText = commandText,
             };
 
-            context.Comand.Add(command);
+            context.Command.Add(command);
             await context.SaveChangesAsync();  // Сохраняем изменения в базу данных
         }
     }

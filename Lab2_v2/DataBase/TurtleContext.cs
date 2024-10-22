@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 public class TurtleContext: DbContext
 {
     
-    public DbSet<Command> Comand {get;set; } = null!;
+    public DbSet<Command> Command {get;set; } = null!;
     public DbSet<Figure> Figure {get;set; } = null!;
     
 

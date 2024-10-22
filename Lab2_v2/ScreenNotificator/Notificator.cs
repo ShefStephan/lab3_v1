@@ -19,11 +19,11 @@ namespace Lab1_v2.ScreenNotificator
         }
 
 
-        public async Task SendNotification(string command, Turtle turtle)
+        public void SendNotification(string command, Turtle turtle)
         {
             if (command == "history")
             {
-                foreach (var comm in await dbReader.GetCommands())
+                foreach (var comm in dbReader.GetCommands())
                 {
                     Console.WriteLine("· " + comm.CommandText);
                 }
@@ -32,7 +32,7 @@ namespace Lab1_v2.ScreenNotificator
 
             else if (command == "listfigures")
             {
-                foreach (var figure in await dbReader.GetFigures())
+                foreach (var figure in dbReader.GetFigures())
                 {
                     Console.WriteLine("· " + figure.FigureType + " " + figure.Parameters);
                 }

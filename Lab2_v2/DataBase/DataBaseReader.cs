@@ -4,19 +4,19 @@ namespace Lab1_v2.DataBase;
 
 public class DataBaseReader
 {
-    public async Task<List<Command>> GetCommands()
+    public List<Command> GetCommands()
     {
         using (var context = new TurtleContext())  // using гарантирует освобождение
         {
-            return await context.Comand.ToListAsync();
+            return context.Command.ToList();
         }
     }
     
-    public async Task<List<Figure>> GetFigures()
+    public List<Figure> GetFigures()
     {
         using (var context = new TurtleContext())
         {
-            return await context.Figure.ToListAsync();
+            return context.Figure.ToList();
         }
     }
     
