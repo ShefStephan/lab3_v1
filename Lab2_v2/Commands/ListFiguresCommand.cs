@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1_v2.CommandsInterface;
+using Lab1_v2.DataBase;
 using Lab1_v2.Storage;
 using Lab1_v2.TurtleObject;
 
@@ -11,14 +12,16 @@ namespace Lab1_v2.Commands
 {
     public class ListFiguresCommand : ICommandsWithoutArgs
     {
-        private StorageReader storageReader;
-        public ListFiguresCommand(StorageReader reader)
+        
+        private DataBaseReader dbReader;
+        public ListFiguresCommand(DataBaseReader reader)
         {
-            storageReader = reader;
+            dbReader = reader;
         }
-        public async void Execute(Turtle turtle)
+
+        public void Execute(Turtle turtle)
         {
-            await storageReader.SetHistoryFiguresAsync();
+            // Console.WriteLine(dbReader.GetFigures());
         }
     }
 }

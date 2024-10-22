@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1_v2.DataBase;
 using Lab1_v2.Storage;
 using Lab1_v2.TurtleObject;
 
@@ -10,32 +11,30 @@ namespace Lab1_v2.ScreenNotificator
 {
     public class Notificator
     {
-        private StorageReader historyCommandReader;
-        private StorageReader historyFiguresReader;
-
-        public Notificator(StorageReader historyCommandReader, StorageReader historyFiguresReader)
+        
+        private DataBaseReader dbReader;
+        public Notificator(DataBaseReader reader)
         {
-            this.historyCommandReader = historyCommandReader;
-            this.historyFiguresReader = historyFiguresReader;
+            dbReader = reader;
         }
 
 
-        public void SendNotification(string command, Turtle turtle)
+        public async Task SendNotification(string command, Turtle turtle)
         {
             if (command == "history")
             {
-                foreach (var comm in historyCommandReader.GetHistory())
+                foreach (var comm in await dbReader.GetCommands())
                 {
-                    Console.WriteLine("· " + comm);
+                    Console.WriteLine("· " + comm.CommandText);
                 }
                
             }
 
             else if (command == "listfigures")
             {
-                foreach (var figure in historyFiguresReader.GetFigures())
+                foreach (var figure in await dbReader.GetFigures())
                 {
-                    Console.WriteLine("· " + figure);
+                    Console.WriteLine("· " + figure.FigureType + " " + figure.Parameters);
                 }
             }
 
@@ -51,8 +50,5 @@ namespace Lab1_v2.ScreenNotificator
             }
            
         }
-
-        
-        
     }
 }

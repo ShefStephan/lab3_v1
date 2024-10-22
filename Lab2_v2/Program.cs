@@ -3,35 +3,39 @@ using Lab1_v2.CommandsOperation;
 using Lab1_v2.ScreenNotificator;
 using Lab1_v2.Storage;
 using Lab1_v2.TurtleObject;
-using System.Linq;
+using Lab1_v2.DataBase;
+
+namespace Lab1_v2;
 
 internal class Program
 {
     // файлы для записи команд черепашки
-    private const string filePath = "commands_history.txt";
-    private const string filePathFigures = "figures.txt";
     private const string Exit = "exit";
 
     private static async Task Main(string[] args)
     {
         //инициализация вспомогательных объектов
         var turtle = new Turtle();
-        var storageReader = new StorageReader(filePath);
-        var storageWriter = new StorageWriter(filePath);
-        var storageReaderForFigures = new StorageReader(filePathFigures);
-        var storageWriterForFigures = new StorageWriter(filePathFigures);
-
-
         var reader = new CommandReader();
-        var manager = new CommandManager(storageReader, storageReaderForFigures);
         var invoker = new CommandInvoker(turtle);
-        var checker = new NewFigureChecker(turtle, storageWriterForFigures);
-        var notificator = new Notificator(storageReader, storageReaderForFigures);
+        
+        var dbReader = new DataBaseReader();
+        var dbWriter = new DataBaseWriter();
+        var dbManager = new CommandManager(dbReader);
+        var dbNotificator = new Notificator(dbReader);
+        var dbChecker = new NewFigureChecker(turtle, dbWriter);
+        
+        // пересоздание база данных
+        await using (var context = new TurtleContext())
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+        }
+        
 
 
         // список команда без аргументов и с аргументами
         var commWithoutArgsList = new List<string>() { "penup", "pendown", "history", "listfigures" };
-        //List<string> commWithArgsList = new List<string>() { "move", "angle" , "color", "width"};
 
         // текст введенной пользователем команды
         string userCommand;
@@ -65,22 +69,22 @@ internal class Program
 
                 if (commWithoutArgsList.Contains(userCommand))
                 {
-                    ICommandsWithoutArgs command = (ICommandsWithoutArgs)manager.DefineCommand(userCommand);
+                    ICommandsWithoutArgs command = (ICommandsWithoutArgs)dbManager.DefineCommand(userCommand);
                     invoker.Invoke(command);
-                    await storageWriter.SaveCommandAsync(userCommand);
+                    await dbWriter.SaveCommand(userCommand);
                 }
                 else
                 {
-                    ICommandsWithArgs command = (ICommandsWithArgs)manager.DefineCommand(userCommand.Split(' ')[0]);
+                    ICommandsWithArgs command = (ICommandsWithArgs)dbManager.DefineCommand(userCommand.Split(' ')[0]);
                     invoker.Invoke(command, userCommand.Split(' ')[1]);
-                    await storageWriter.SaveCommandAsync(userCommand);
+                    await dbWriter.SaveCommand(userCommand);
                 }
 
                 // вывод соообщение после испольнения команды
-                notificator.SendNotification(userCommand, turtle);
+                dbNotificator.SendNotification(userCommand, turtle);
 
                 // проверка на образование новой фигуры
-                await checker.Check();
+                await dbChecker.Check();
             }
 
             // возможные ошибки в ходе выполнения
@@ -105,17 +109,13 @@ internal class Program
             }
 
 
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("empty...");
-            }
+            // catch (NullReferenceException ex)
+            // {
+            //     Console.WriteLine("empty...");
+            // }
         }
 
         Console.WriteLine("GAME END");
-
-        // очищение файла с командами и фигурами
-        await storageWriter.ClearFileAsync();
-        await storageWriterForFigures.ClearFileAsync();
 
         ;
     }

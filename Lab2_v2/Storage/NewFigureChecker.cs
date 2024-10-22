@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1_v2.DataBase;
 using Lab1_v2.TurtleObject;
 
 namespace Lab1_v2.Storage
@@ -14,19 +15,17 @@ namespace Lab1_v2.Storage
         private double lastX;
         private double lastY;
         private string figure;
-        private IStorageWriter writer;
+        private DataBaseWriter dbWriter;
+        private string param;
 
-
-        public NewFigureChecker(Turtle turtle, IStorageWriter writer)
+        public NewFigureChecker(Turtle turtle, DataBaseWriter writer)
         {
             this.turtle = turtle;
             points.Add((0, 0));
             lastX = 0;
             lastY = 0;
-            this.writer = writer;
+            dbWriter = writer;
         }
-
-
 
         public async Task Check()
         {
@@ -66,7 +65,13 @@ namespace Lab1_v2.Storage
                         Console.Write("Образована новая фигура: " + figure);
                         Console.WriteLine();
 
-                        await writer.SaveCommandAsync(figure + " " + CoordArrayToString());
+                        param = CoordArrayToString();
+                        // await writer.SaveCommandAsync(figure + " " + CoordArrayToString());
+                        if (dbWriter != null)
+                        {
+                            dbWriter.SaveFigure(figure, param);
+                        }
+                        
                         points.Clear();
                     }
                 }
@@ -77,8 +82,6 @@ namespace Lab1_v2.Storage
             }
 
         }
-
-
 
         private string CoordArrayToString()
         {

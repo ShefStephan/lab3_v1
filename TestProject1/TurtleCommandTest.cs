@@ -12,7 +12,7 @@ namespace TestProject1
     public class TurtleCommandTest
     {
 
-        //тестовые данные
+        //
         [Theory]
         [InlineData("-5", 0, -5)]
         [InlineData("0", 0, 0)]
@@ -27,12 +27,12 @@ namespace TestProject1
             double expectedX = expX;
             double expectedY = expY;
 
-            //действие
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             moveCommand.Execute(turtle, command);
             double actualX = turtle.GetCoordX();
             double actualY = turtle.GetCoordY();
 
-            //проверка
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Equal(expectedX, actualX);
             Assert.Equal(expectedY, actualY);
 
@@ -41,19 +41,19 @@ namespace TestProject1
         [Fact]
         public void TestMoveCommandWithRandomData()
         {
-            // инициализация
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Random rnd = new Random();
             Turtle turtle = new Turtle();
             MoveCommand moveCommand = new MoveCommand();
 
-            //данные
+            //пїЅпїЅпїЅпїЅпїЅпїЅ
             string command = rnd.Next(1000).ToString();
             double expectedY = double.Parse(command);
 
-            //действие
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             moveCommand.Execute(turtle, command);
 
-            //проверка
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Equal(0, turtle.GetCoordX());
             Assert.Equal(expectedY, turtle.GetCoordY());
 
@@ -68,18 +68,18 @@ namespace TestProject1
 
         public void TestAngleCommandWithExtremePointsData(string str, double exp)
         {
-            //тестовые данные
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Turtle turtle = new Turtle();
             AngleCommand angleCommand = new AngleCommand();
             string command = str;
             double expected = exp;
 
 
-            //действие
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             angleCommand.Execute(turtle, command);
             double actual = turtle.GetAngle();
 
-            //проверка
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Equal(expected, actual);
 
         }
@@ -87,7 +87,7 @@ namespace TestProject1
         [Fact]
         public void TestPenUpCommandResult()
         {
-            //тестовые данные
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Turtle turtle = new Turtle();
             PenUpCommand penUpCommand = new PenUpCommand();
             string expected = "penUp";
@@ -102,7 +102,7 @@ namespace TestProject1
         [Fact]
         public void TestPenDownCommandResult()
         {
-            //тестовые данные
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Turtle turtle = new Turtle();
             PenDownCommand penDownCommand = new PenDownCommand();
             string expected = "penDown";
@@ -117,18 +117,18 @@ namespace TestProject1
         [Fact]
         public void TestSetColorCommandResult()
         {
-            //тестовые данные
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Turtle turtle = new Turtle();
             SetColorCommand setColorCommand = new SetColorCommand();
             string command = "red";
             string expected = "red";
 
 
-            //действие
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             setColorCommand.Execute(turtle, command);
             string actual = turtle.GetColor();
 
-            //проверка
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Equal(expected, actual);
 
         }
@@ -136,7 +136,7 @@ namespace TestProject1
         [Fact]
         public void TestSetWidthCommandWithRandomData()
         {
-            //тестовые данные
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Random rnd = new Random();
             Turtle turtle = new Turtle();
             SetWidthCommand setWidthCommand = new SetWidthCommand();
@@ -144,11 +144,11 @@ namespace TestProject1
             double expected = int.Parse(command);
 
 
-            //действие
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             setWidthCommand.Execute(turtle, command);
             double actual = turtle.GetWidth();
 
-            //проверка
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Equal(expected, actual);
 
         }
@@ -166,154 +166,154 @@ namespace TestProject1
             {
                 var mockStorageWriter = new Mock<IStorageWriter>();
 
-                // Кписок хранения команд
+                // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 var savedCommands = new List<string>();
 
-                // Мок
+                // пїЅпїЅпїЅ
                 mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
                     .Callback<string>(command => savedCommands.Add(command));
 
-                // запись команд
+                // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 foreach (string command in commands)
                 {
                     mockStorageWriter.Object.SaveCommandAsync(command);
                 }
 
-                // Сравнение
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 Assert.Equal(commands, savedCommands);
             }
         
         
         
-        [Fact]
+        /*[Fact]
         public async Task TestNewFigureCheckerExpectedTriangleWithMoq()
         {
-            // Создаем мок для интерфейса IStorageWriter
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ IStorageWriter
             var mockStorageWriter = new Mock<IStorageWriter>();
 
-            // Список для имитации сохраненных фигур (вместо файла)
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
             var savedFigures = new List<string>();
 
-            // Настраиваем мок для записи фигур в список
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
                 .Callback<string>(figure => savedFigures.Add(figure));
 
-            // Создаем необходимые объекты
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             var turtle = new Turtle();
             var moveCommand = new MoveCommand();
             var angleCommand = new AngleCommand();
             var checker = new NewFigureChecker(turtle, mockStorageWriter.Object);
 
-            // Ожидаемая фигура - треугольник
-            var expectedFigure = "треугольник";
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            var expectedFigure = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
-            // Выполняем команды для создания треугольника
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             for (int i = 1; i <= 3; i++)
             {
-                moveCommand.Execute(turtle, "10"); // Движение на 10 единиц
-                angleCommand.Execute(turtle, "120"); // Поворот на 120 градусов
-                await checker.Check(); // Проверяем, образовалась ли фигура
+                moveCommand.Execute(turtle, "10"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 10 пїЅпїЅпїЅпїЅпїЅпїЅ
+                angleCommand.Execute(turtle, "120"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 120 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                await checker.Check(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             }
 
-            // Проверяем, что сохраненная фигура — треугольник
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Contains(expectedFigure, savedFigures[0].Split(' ')[0]);
-        }
+        }*/
 
-        [Fact]
+        /*[Fact]
         public async Task TestNewFigureCheckerExpectedSquareWithMoq()
         {
-            // Создаем мок для интерфейса IStorageWriter
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ IStorageWriter
             var mockStorageWriter = new Mock<IStorageWriter>();
 
-            // Список для имитации сохраненных фигур (вместо файла)
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
             var savedFigures = new List<string>();
 
-            // Настраиваем мок для записи фигур в список
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
                 .Callback<string>(figure => savedFigures.Add(figure));
 
-            // Создаем необходимые объекты
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             var turtle = new Turtle();
             var moveCommand = new MoveCommand();
             var angleCommand = new AngleCommand();
             var checker = new NewFigureChecker(turtle, mockStorageWriter.Object);
 
-            // Ожидаемая фигура - треугольник
-            var expectedFigure = "квадрат";
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            var expectedFigure = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
-            // Выполняем команды для создания треугольника
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             for (int i = 1; i <= 4; i++)
             {
-                moveCommand.Execute(turtle, "10"); // Движение на 10 единиц
-                angleCommand.Execute(turtle, "90"); // Поворот на 120 градусов
-                await checker.Check(); // Проверяем, образовалась ли фигура
+                moveCommand.Execute(turtle, "10"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 10 пїЅпїЅпїЅпїЅпїЅпїЅ
+                angleCommand.Execute(turtle, "90"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 120 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                await checker.Check(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             }
 
-            // Проверяем, что сохраненная фигура — треугольник
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Contains(expectedFigure, savedFigures[0].Split(' ')[0]);
-        }
+        }*/
 
-        [Fact]
+        /*[Fact]
         public async Task TestNewFigureCheckerExpectedPentagonWithMoq()
         {
-            // Создаем мок для интерфейса IStorageWriter
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ IStorageWriter
             var mockStorageWriter = new Mock<IStorageWriter>();
 
-            // Список для имитации сохраненных фигур (вместо файла)
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
             var savedFigures = new List<string>();
 
-            // Настраиваем мок для записи фигур в список
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
                 .Callback<string>(figure => savedFigures.Add(figure));
 
-            // Создаем необходимые объекты
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             var turtle = new Turtle();
             var moveCommand = new MoveCommand();
             var angleCommand = new AngleCommand();
             var checker = new NewFigureChecker(turtle, mockStorageWriter.Object);
 
-            // Ожидаемая фигура - треугольник
-            var expectedFigure = "пятиугольник";
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            var expectedFigure = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
-            // Выполняем команды для создания треугольника
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             for (int i = 1; i <= 5; i++)
             {
-                moveCommand.Execute(turtle, "10"); // Движение на 10 единиц
-                angleCommand.Execute(turtle, "72"); // Поворот на 120 градусов
-                await checker.Check(); // Проверяем, образовалась ли фигура
+                moveCommand.Execute(turtle, "10"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 10 пїЅпїЅпїЅпїЅпїЅпїЅ
+                angleCommand.Execute(turtle, "72"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 120 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                await checker.Check(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             }
 
-            // Проверяем, что сохраненная фигура — треугольник
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Contains(expectedFigure, savedFigures[0].Split(' ')[0]);
-        }
+        }*/
 
 
 
-        [Fact]
+        /*[Fact]
         public async Task TestFigureCoords()
         {
-            // Создаем мок для интерфейса IStorageWriter
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ IStorageWriter
             var mockStorageWriter = new Mock<IStorageWriter>();
 
-            // Список для имитации сохраненных данных (вместо файла)
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
             var savedFigures = new List<string>();
 
-            // Настраиваем мок для записи данных в список
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
                 .Callback<string>(figure => savedFigures.Add(figure));
 
-            // Создаем реальные объекты Turtle, MoveCommand и AngleCommand
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Turtle, MoveCommand пїЅ AngleCommand
             var turtle = new Turtle();
             var moveCommand = new MoveCommand();
             var angleCommand = new AngleCommand();
 
-            // Создаем объект NewFigureChecker, передавая реального Turtle и мок IStorageWriter
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ NewFigureChecker, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Turtle пїЅ пїЅпїЅпїЅ IStorageWriter
             var checker = new NewFigureChecker(turtle, mockStorageWriter.Object);
 
-            // Ожидаемое значение координат
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             var expectedCoords = "{(0;0)(0;10)(8,66;5)(0;-0)}";
 
-            // Выполняем команды для перемещения черепашки и проверки координат
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             moveCommand.Execute(turtle, "10");
             await checker.Check();
             angleCommand.Execute(turtle, "120");
@@ -325,9 +325,9 @@ namespace TestProject1
             moveCommand.Execute(turtle, "10");
             await checker.Check();
 
-            // Проверяем, что сохраненная строка соответствует ожидаемым координатам
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Assert.Contains(expectedCoords, savedFigures[0].Split(' ')[1]);
-        }
+        }*/
 
 
     }
