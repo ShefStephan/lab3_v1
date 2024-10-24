@@ -13,6 +13,7 @@ namespace Lab1_v2.ScreenNotificator
     {
         
         private DataBaseReader dbReader;
+        private TurtleStatus? turtleStatus;
         public Notificator(DataBaseReader reader)
         {
             dbReader = reader;
@@ -40,13 +41,16 @@ namespace Lab1_v2.ScreenNotificator
 
             else
             {
+                turtleStatus = dbReader.GetTurtleStatus();
+                
                 Console.WriteLine("состояние: " +
-                "pos: (" + Math.Round(turtle.GetCoordX(), 2) +
-                "; " + Math.Round(turtle.GetCoordY(), 2) + ")" +
-                ", pen: " + turtle.GetPenCondition() +
-                ", angle: " + turtle.GetAngle() +
-                ", color: " + turtle.GetColor() +
-                ", width: " + turtle.GetWidth());
+                "pos: (" + Math.Round(turtleStatus.Xcoors, 2) +
+                "; " + Math.Round(turtleStatus.Ycoors, 2) + ")" +
+                ", pen: " + turtleStatus.PenCondition +
+                ", angle: " + turtleStatus.Angle +
+                ", color: " + turtleStatus.Color +
+                ", width: " + turtleStatus.Width);
+                
             }
            
         }

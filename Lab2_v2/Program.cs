@@ -79,6 +79,7 @@ internal class Program
                     await dbWriter.SaveCommand(userCommand);
                 }
 
+                await dbWriter.SaveTurtleStatus(turtle);
                 // вывод соообщение после испольнения команды
                 dbNotificator.SendNotification(userCommand, turtle);
 
