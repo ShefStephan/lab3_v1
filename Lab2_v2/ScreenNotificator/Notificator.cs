@@ -20,11 +20,12 @@ namespace Lab1_v2.ScreenNotificator
         }
 
 
-        public void SendNotification(string command, Turtle turtle)
+        public async Task SendNotification(string command)
         {
             if (command == "history")
             {
-                foreach (var comm in dbReader.GetCommands())
+                var commands = await dbReader.GetCommands();
+                foreach (var comm in commands)
                 {
                     Console.WriteLine("· " + comm.CommandText);
                 }
@@ -33,7 +34,8 @@ namespace Lab1_v2.ScreenNotificator
 
             else if (command == "listfigures")
             {
-                foreach (var figure in dbReader.GetFigures())
+                var figures = await dbReader.GetFigures();
+                foreach (var figure in figures)
                 {
                     Console.WriteLine("· " + figure.FigureType + " " + figure.Parameters);
                 }
@@ -41,16 +43,18 @@ namespace Lab1_v2.ScreenNotificator
 
             else
             {
-                turtleStatus = dbReader.GetTurtleStatus();
-                
-                Console.WriteLine("состояние: " +
-                "pos: (" + Math.Round(turtleStatus.Xcoors, 2) +
-                "; " + Math.Round(turtleStatus.Ycoors, 2) + ")" +
-                ", pen: " + turtleStatus.PenCondition +
-                ", angle: " + turtleStatus.Angle +
-                ", color: " + turtleStatus.Color +
-                ", width: " + turtleStatus.Width);
-                
+                var turtleStatus = dbReader.GetTurtleStatus();
+                if (turtleStatus != null)
+                {
+                    Console.WriteLine("состояние: " +
+                                      "pos: (" + Math.Round(turtleStatus.Xcoors, 2) +
+                                      "; " + Math.Round(turtleStatus.Ycoors, 2) + ")" +
+                                      ", pen: " + turtleStatus.PenCondition +
+                                      ", angle: " + turtleStatus.Angle +
+                                      ", color: " + turtleStatus.Color +
+                                      ", width: " + turtleStatus.Width);
+                }
+
             }
            
         }

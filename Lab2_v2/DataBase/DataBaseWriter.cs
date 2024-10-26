@@ -23,6 +23,21 @@ public class DataBaseWriter
             await context.SaveChangesAsync();
         }
     }
+
+    public async Task SaveTurtleCoords(Turtle turtle)
+    {
+        using (var context = new TurtleContext())
+        {
+            var turtleCoords = new TurtleCoords
+            {
+                xCoord = turtle.GetCoordX(),
+                yCoord = turtle.GetCoordY()
+            };
+            
+            context.TurtleCoords.Add(turtleCoords);
+            await context.SaveChangesAsync();
+        }
+    }
     
     // сохранение команды в таблицу "Command"
     public async Task SaveCommand(string commandText)

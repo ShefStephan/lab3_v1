@@ -5,44 +5,72 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1_v2.DataBase;
 using Lab1_v2.TurtleObject;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lab1_v2.Storage
 {
     public class NewFigureChecker
     {
         private Turtle turtle;
-        private List<(double x, double y)> points = new List<(double x, double y)>() { };
         private double lastX;
         private double lastY;
         private string figure;
         private DataBaseWriter dbWriter;
+        private DataBaseReader dbReader;
         private string param;
+        private int rowCount;
+        private TurtleStatus firstRow;
+        private TurtleStatus lastRow;
 
-        public NewFigureChecker(Turtle turtle, DataBaseWriter writer)
+        public NewFigureChecker(Turtle turtle, DataBaseWriter writer, DataBaseReader reader)
         {
             this.turtle = turtle;
-            points.Add((0, 0));
             lastX = 0;
             lastY = 0;
             dbWriter = writer;
+            dbReader = reader;
         }
 
         public async Task Check()
         {
-            if (turtle.GetPenCondition() == "penDown")
+            var turtleStatus = dbReader.GetTurtleStatus();
+            if (turtleStatus?.PenCondition == "penDown")
             {
-                if (lastX != Math.Round(turtle.GetCoordX(), 2) || lastY != Math.Round(turtle.GetCoordY(), 2))
+                var latestStatus = dbReader.GetTurtleStatus();
+                if (latestStatus != null && 
+                    (lastX != latestStatus.Xcoors || lastY != latestStatus.Ycoors))
                 {
-                    points.Add((Math.Round(turtle.GetCoordX(), 2), Math.Round(turtle.GetCoordY(), 2)));
+                    await dbWriter.SaveTurtleCoords(turtle);
+                    
+                    var lastCoords = dbReader.GetTurtleCoords();
+                    if (lastCoords != null)
+                    {
+                        lastX = lastCoords.xCoord;
+                        lastY = lastCoords.yCoord;
+                    }
 
-                    lastX = points[points.Count - 1].x;
-                    lastY = points[points.Count - 1].y;
-
-
-                    if (points.Count > 2 && points[0] == points[^1])
+                    using (var context = new TurtleContext())
+                    {
+                        rowCount = await context.TurtleCoords.CountAsync();
+                    }
+                    
+                    using (var context = new TurtleContext())
+                    {
+                        // Получаем первую запись в таблице 
+                        // IQueryable<TurtleStatus> firstRowIQuer = context.TurtleStatus;
+                        firstRow = await context.TurtleStatus.OrderBy(t => t.Id).FirstOrDefaultAsync();
+    
+                        // Получаем последнюю запись в таблице 
+                        // IQueryable<TurtleStatus> lastRowIQuer = context.TurtleStatus;
+                        lastRow = await context.TurtleStatus.OrderByDescending(t => t.Id).FirstOrDefaultAsync();
+                    }
+                    
+                    if (rowCount > 2 && 
+                        firstRow != null && lastRow != null &&
+                        (firstRow.Xcoors == lastRow.Xcoors && firstRow.Ycoors == lastRow.Ycoors))
                     {
 
-                        switch (points.Count - 1)
+                        switch (rowCount-1)
                         {
                             case 3:
                                 figure = "треугольник";
@@ -65,33 +93,46 @@ namespace Lab1_v2.Storage
                         Console.Write("Образована новая фигура: " + figure);
                         Console.WriteLine();
 
-                        param = CoordArrayToString();
-                        // await writer.SaveCommandAsync(figure + " " + CoordArrayToString());
+                        param = await CoordArrayToString();
                         if (dbWriter != null)
                         {
-                            dbWriter.SaveFigure(figure, param);
+                            await dbWriter.SaveFigure(figure, param);
                         }
                         
-                        points.Clear();
+                        await ClearTurtleCoords();
                     }
                 }
             }
             else
             {
-                points.Clear();
+                await ClearTurtleCoords();
             }
 
         }
 
-        private string CoordArrayToString()
+        private async Task<string> CoordArrayToString()
         {
-            string listString = "{";
-            foreach (var point in points)
+            using (var context = new TurtleContext())
             {
-                listString += "(" + point.x + ";" + point.y + ")";
+                var allRows = await context.TurtleCoords.ToListAsync();
+                var result = new StringBuilder();
+
+                foreach (var row in allRows)
+                {
+                    result.Append($"({row.xCoord}; {row.yCoord})");
+                }
+                
+                return result.ToString();;
             }
-            return listString + "}";
         }
 
+        private async Task ClearTurtleCoords()
+        {
+            using (var context = new TurtleContext())
+            {
+                context.TurtleCoords.RemoveRange(context.TurtleCoords);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

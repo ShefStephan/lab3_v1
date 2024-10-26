@@ -31,22 +31,22 @@ namespace Lab1_v2.TurtleObject
 
         public double GetCoordX()
         {
-            return coordX;
+            return Math.Round(coordX, 2);
         }
 
         public void SetCoordx(double value)
         {
-            coordX += value;
+            coordX += Math.Round(value, 2);
         }
 
         public double GetCoordY()
         {
-            return coordY;
+            return Math.Round(coordY, 2);
         }
 
         public void SetCoordY(double value)
         {
-            coordY += value;
+            coordY += Math.Round(value, 2);
         }
 
 

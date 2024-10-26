@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lab1_v2.DataBase;
 
@@ -12,19 +13,27 @@ public class DataBaseReader
                 
         }
     }
-    public List<Command> GetCommands()
-    {
-        using (var context = new TurtleContext())  // using гарантирует освобождение
-        {
-            return context.Command.ToList();
-        }
-    }
-    
-    public List<Figure> GetFigures()
+
+    public TurtleCoords? GetTurtleCoords()
     {
         using (var context = new TurtleContext())
         {
-            return context.Figure.ToList();
+            return context.TurtleCoords.OrderByDescending(t => t.Id).FirstOrDefault();
+        }
+    }
+    public async Task<List<Command>> GetCommands()
+    {
+        using (var context = new TurtleContext())  // using гарантирует освобождение
+        {
+            return await context.Command.ToListAsync();
+        }
+    }
+    
+    public async Task<List<Figure>> GetFigures()
+    {
+        using (var context = new TurtleContext())
+        {
+            return await context.Figure.ToListAsync();
         }
     }
     

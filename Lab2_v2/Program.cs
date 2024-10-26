@@ -23,13 +23,14 @@ internal class Program
         var dbWriter = new DataBaseWriter();
         var dbManager = new CommandManager(dbReader);
         var dbNotificator = new Notificator(dbReader);
-        var dbChecker = new NewFigureChecker(turtle, dbWriter);
+        var dbChecker = new NewFigureChecker(turtle, dbWriter, dbReader);
         
         // пересоздание база данных
         await using (var context = new TurtleContext())
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+            context.InitializeDatabase();
         }
         
         
@@ -81,7 +82,7 @@ internal class Program
 
                 await dbWriter.SaveTurtleStatus(turtle);
                 // вывод соообщение после испольнения команды
-                dbNotificator.SendNotification(userCommand, turtle);
+                dbNotificator.SendNotification(userCommand);
 
                 // проверка на образование новой фигуры
                 await dbChecker.Check();
@@ -108,10 +109,10 @@ internal class Program
                 Console.WriteLine("Invalid argument, please try again or check command list");
             }
             
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("empty...");
-            }
+            // catch (NullReferenceException ex)
+            // {
+            //     Console.WriteLine("empty...");
+            // }
         }
 
         Console.WriteLine("GAME END");
