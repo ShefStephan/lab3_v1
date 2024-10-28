@@ -24,7 +24,7 @@ namespace Lab1_v2.ScreenNotificator
         {
             if (command == "history")
             {
-                var commands = await dbReader.GetCommands();
+                var commands = dbReader.GetCommands();
                 foreach (var comm in commands)
                 {
                     Console.WriteLine("· " + comm.CommandText);
@@ -34,7 +34,7 @@ namespace Lab1_v2.ScreenNotificator
 
             else if (command == "listfigures")
             {
-                var figures = await dbReader.GetFigures();
+                var figures = dbReader.GetFigures();
                 foreach (var figure in figures)
                 {
                     Console.WriteLine("· " + figure.FigureType + " " + figure.Parameters);

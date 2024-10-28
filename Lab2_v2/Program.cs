@@ -31,7 +31,6 @@ internal class Program
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             context.InitializeDatabase();
-            await dbManager.FillDataBaseCommands();
         }
         
         
@@ -42,7 +41,6 @@ internal class Program
 
         // текст введенной пользователем команды
         string userCommand;
-
 
         Console.WriteLine("-------Welcome to the TURTLEGAME-------");
         Console.WriteLine();
@@ -93,10 +91,10 @@ internal class Program
             }
 
             // возможные ошибки в ходе выполнения
-            // catch (InvalidCastException ex)
-            // {
-            //     Console.WriteLine("Invalid argument");
-            // }
+            catch (InvalidCastException ex)
+            {
+                Console.WriteLine("Invalid argument");
+            }
 
             catch (IndexOutOfRangeException ex)
             {
@@ -113,10 +111,10 @@ internal class Program
                 Console.WriteLine("Invalid argument, please try again or check command list");
             }
             
-            // catch (NullReferenceException ex)
-            // {
-            //     Console.WriteLine("empty...");
-            // }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine("empty...");
+            }
         }
 
         Console.WriteLine("GAME END");
