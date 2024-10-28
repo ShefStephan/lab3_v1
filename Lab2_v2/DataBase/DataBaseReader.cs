@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lab1_v2.DataBase;
 
-public class DataBaseReader
+public class DataBaseReader : IDataBaseReader
 {
     public TurtleStatus? GetTurtleStatus()
     {
@@ -21,11 +21,11 @@ public class DataBaseReader
             return context.TurtleCoords.OrderByDescending(t => t.Id).FirstOrDefault();
         }
     }
-    public async Task<List<Command>> GetCommands()
+    public async Task<List<CommandHistory>> GetCommands()
     {
         using (var context = new TurtleContext())  // using гарантирует освобождение
         {
-            return await context.Command.ToListAsync();
+            return await context.CommandHistory.ToListAsync();
         }
     }
     

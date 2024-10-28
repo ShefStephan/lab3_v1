@@ -1,8 +1,9 @@
-﻿using Lab1_v2.TurtleObject;
+﻿using Lab1_v2.Storage;
+using Lab1_v2.TurtleObject;
 
 namespace Lab1_v2.DataBase;
 
-public class DataBaseWriter
+public class DataBaseWriter: IDataBaseWriter
 {
     // сохранение статуса черепашки в таблицу "TurtleStatus"
     public async Task SaveTurtleStatus(Turtle turtle)
@@ -44,12 +45,12 @@ public class DataBaseWriter
     {
         using (var context = new TurtleContext())  
         {
-            var command = new Command
+            var command = new CommandHistory
             {
                 CommandText = commandText,
             };
 
-            context.Command.Add(command);
+            context.CommandHistory.Add(command);
             await context.SaveChangesAsync();  // Сохраняем изменения в базу данных
         }
     }

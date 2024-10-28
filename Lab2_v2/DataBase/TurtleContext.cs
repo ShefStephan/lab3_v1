@@ -5,9 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 public class TurtleContext: DbContext
 {
+    public DbSet<CommandList> CommandLists { get; set; } = null!;
     public DbSet<TurtleStatus> TurtleStatus { get; set; } = null!;
     public DbSet<TurtleCoords> TurtleCoords { get; set; } = null!;
-    public DbSet<Command> Command {get;set; } = null!;
+    public DbSet<CommandHistory> CommandHistory {get;set; } = null!;
     public DbSet<Figure> Figure {get;set; } = null!;
     
 
@@ -22,14 +23,14 @@ public class TurtleContext: DbContext
     {
         using (var context = new TurtleContext())
         {
-            // Проверяем, есть ли записи в таблице TurtleStatus
+            // Проверка есть ли записи в таблице TurtleStatus
             if (!context.TurtleStatus.Any())
             {
                 var initialStatus = new TurtleStatus
                 {
                     Xcoors = 0,           // начальная координата X
                     Ycoors = 0,           // начальная координата Y
-                    PenCondition = "down",   // начальное состояние пера
+                    PenCondition = "down",// начальное состояние пера
                     Angle = 0,            // начальный угол поворота
                     Color = "black",      // начальный цвет
                     Width = 1             // начальная ширина пера
@@ -38,7 +39,7 @@ public class TurtleContext: DbContext
                 context.TurtleStatus.Add(initialStatus);
             }
 
-            // Проверяем, есть ли записи в таблице TurtleCoords
+            // Проверка есть ли записи в таблице TurtleCoords
             if (!context.TurtleCoords.Any())
             {
                 var initialCoords = new TurtleCoords

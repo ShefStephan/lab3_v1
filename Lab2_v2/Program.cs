@@ -25,13 +25,16 @@ internal class Program
         var dbNotificator = new Notificator(dbReader);
         var dbChecker = new NewFigureChecker(turtle, dbWriter, dbReader);
         
-        // пересоздание база данных
+        // пересоздание базы данных
         await using (var context = new TurtleContext())
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             context.InitializeDatabase();
+            await dbManager.FillDataBaseCommands();
         }
+        
+        
         
         
         // список команда без аргументов и с аргументами
@@ -47,13 +50,14 @@ internal class Program
                           "- move [number]\n" +
                           "- angle [number]\n" +
                           "- penup\n" +
-                          "= pendown\n" +
+                          "- pendown\n" +
                           "- history\n" +
                           "- listfigures\n" +
                           "- color [string]\n" +
                           "- width [number]");
         Console.WriteLine();
         Console.WriteLine("Choose the command from list to START the game");
+        Console.WriteLine("To leave the game, enter - exit");
 
 
         while (true)
@@ -82,17 +86,17 @@ internal class Program
 
                 await dbWriter.SaveTurtleStatus(turtle);
                 // вывод соообщение после испольнения команды
-                dbNotificator.SendNotification(userCommand);
+                await dbNotificator.SendNotification(userCommand);
 
                 // проверка на образование новой фигуры
                 await dbChecker.Check();
             }
 
             // возможные ошибки в ходе выполнения
-            catch (InvalidCastException ex)
-            {
-                Console.WriteLine("Invalid argument");
-            }
+            // catch (InvalidCastException ex)
+            // {
+            //     Console.WriteLine("Invalid argument");
+            // }
 
             catch (IndexOutOfRangeException ex)
             {
