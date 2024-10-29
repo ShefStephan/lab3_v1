@@ -15,14 +15,14 @@ namespace Lab1_v2.Storage
         private double lastX;
         private double lastY;
         private string figure;
-        private DataBaseWriter dbWriter;
-        private DataBaseReader dbReader;
+        private IDataBaseWriter dbWriter;
+        private IDataBaseReader dbReader;
         private string param;
         private int rowCount;
         private TurtleStatus firstRow;
         private TurtleStatus lastRow;
 
-        public NewFigureChecker(Turtle turtle, DataBaseWriter writer, DataBaseReader reader)
+        public NewFigureChecker(Turtle turtle, IDataBaseWriter writer, IDataBaseReader reader)
         {
             this.turtle = turtle;
             lastX = 0;
@@ -33,16 +33,16 @@ namespace Lab1_v2.Storage
 
         public async Task Check()
         {
-            var turtleStatus = dbReader.GetTurtleStatus();
+            var turtleStatus = await dbReader.GetTurtleStatus();
             if (turtleStatus?.PenCondition == "penDown")
             {
-                var latestStatus = dbReader.GetTurtleStatus();
+                var latestStatus = await dbReader.GetTurtleStatus();
                 if (latestStatus != null && 
                     (lastX != latestStatus.Xcoors || lastY != latestStatus.Ycoors))
                 {
                     await dbWriter.SaveTurtleCoords(turtle);
                     
-                    var lastCoords = dbReader.GetTurtleCoords();
+                    var lastCoords = await dbReader.GetTurtleCoords();
                     if (lastCoords != null)
                     {
                         lastX = lastCoords.xCoord;

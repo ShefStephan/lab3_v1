@@ -1,9 +1,12 @@
-﻿namespace Lab1_v2.DataBase;
+﻿using Lab1_v2.TurtleObject;
+
+namespace Lab1_v2.DataBase;
 
 public interface IDataBaseWriter
 {
-    Task SaveCommand(string commandText);
+    public Task SaveCommand(string commandText);
     
-    Task SaveFigure(string figureType, string parameters);
-    
+    public Task SaveFigure(string figureType, string parameters);
+    public Task SaveTurtleCoords(Turtle turtle);
+
 }

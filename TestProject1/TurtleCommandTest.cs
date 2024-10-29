@@ -4,6 +4,8 @@ using Lab1_v2.TurtleObject;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using Lab1_v2.DataBase;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
 using Moq;
 
@@ -166,32 +168,40 @@ namespace TestProject1
         
         
         
-        // [Fact]
-        // public async Task TestNewFigureCheckerExpectedTriangleWithMoq()
-        // {
-        //     var mockStorageWriter = new Mock<IStorageWriter>();
-        //     
-        //     var savedFigures = new List<string>();
-        //     
-        //     mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
-        //         .Callback<string>(figure => savedFigures.Add(figure));
-        //     
-        //     var turtle = new Turtle();
-        //     var moveCommand = new MoveCommand();
-        //     var angleCommand = new AngleCommand();
-        //     var checker = new NewFigureChecker(turtle, new DataBaseWriter(), new DataBaseReader());
-        //     
-        //     var expectedFigure = "треугольник";
-        //     
-        //     for (int i = 1; i <= 3; i++)
-        //     {
-        //         moveCommand.Execute(turtle, "10"); 
-        //         angleCommand.Execute(turtle, "120"); 
-        //         await checker.Check(); 
-        //     }
-        //     
-        //     Assert.Contains(expectedFigure, savedFigures[0].Split(' ')[0]);
-        // }
+            [Fact]
+            public async Task TestNewFigureCheckerExpectedTriangleWithMoq()
+            {
+
+                // Настраиваем Moq для IStorageWriter
+                var mockDataBaseWriter = new Mock<IDataBaseWriter>();
+                var mockDataBaseReader = new Mock<IDataBaseReader>();
+                var savedFigures = new List<string>();
+
+                mockDataBaseWriter.Setup(writer => writer.SaveCommand(It.IsAny<string>()))
+                    .Callback<string>(figure => savedFigures.Add(figure));
+
+                // Инициализируем объекты для тестирования с использованием mockStorageWriter
+                var turtle = new Turtle();
+                var moveCommand = new MoveCommand();
+                var angleCommand = new AngleCommand();
+                var checker = new NewFigureChecker(turtle, mockDataBaseWriter.Object, mockDataBaseReader.Object);
+
+                var expectedFigure = "треугольник";
+
+                // Выполняем команды для проверки создания треугольника
+                for (int i = 1; i <= 3; i++)
+                {
+                    moveCommand.Execute(turtle, "10");
+                    angleCommand.Execute(turtle, "120");
+                    await checker.Check();
+                }
+
+                // Проверка, что savedFigures содержит ожидаемое значение
+                Assert.Contains(expectedFigure,  savedFigures[0].Split(' ')[0]);
+                
+            }
+
+
         
         // [Fact]
         // public async Task TestNewFigureCheckerExpectedTriangleWithMoq()

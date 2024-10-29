@@ -24,7 +24,7 @@ namespace Lab1_v2.ScreenNotificator
         {
             if (command == "history")
             {
-                var commands = dbReader.GetCommands();
+                var commands = await dbReader.GetCommands();
                 foreach (var comm in commands)
                 {
                     Console.WriteLine("· " + comm.CommandText);
@@ -34,7 +34,11 @@ namespace Lab1_v2.ScreenNotificator
 
             else if (command == "listfigures")
             {
-                var figures = dbReader.GetFigures();
+                var figures = await dbReader.GetFigures();
+                if (figures.Count == 0)
+                {
+                    Console.WriteLine("empty...");
+                }
                 foreach (var figure in figures)
                 {
                     Console.WriteLine("· " + figure.FigureType + " " + figure.Parameters);
@@ -43,7 +47,7 @@ namespace Lab1_v2.ScreenNotificator
 
             else
             {
-                var turtleStatus = dbReader.GetTurtleStatus();
+                var turtleStatus = await dbReader.GetTurtleStatus();
                 if (turtleStatus != null)
                 {
                     Console.WriteLine("состояние: " +

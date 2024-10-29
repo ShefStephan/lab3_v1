@@ -11,10 +11,12 @@ public class TurtleContext: DbContext
     public DbSet<CommandHistory> CommandHistory {get;set; } = null!;
     public DbSet<Figure> Figure {get;set; } = null!;
     
+    public TurtleContext(DbContextOptions<TurtleContext> options) : base(options) { }
+    public TurtleContext() {}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=mydb.db");
+        optionsBuilder.UseSqlite("Data Source=mydb.db"); //move connection string to appsetting.json
     }
     
     
