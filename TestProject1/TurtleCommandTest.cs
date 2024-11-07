@@ -8,6 +8,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
 using Moq;
+using Lab1_v2.Storage;
 
 
 namespace TestProject1
@@ -151,16 +152,16 @@ namespace TestProject1
             [InlineData("move 33", "penup", "history")]
             public void TestHistoryCommandWithInlineDataWithMoq(params string[] commands)
             {
-                var mockStorageWriter = new Mock<IStorageWriter>();
+                var mockStorageWriter = new Mock<IDataBaseWriter>();
                 
                 var savedCommands = new List<string>();
                 
-                mockStorageWriter.Setup(writer => writer.SaveCommandAsync(It.IsAny<string>()))
+                mockStorageWriter.Setup(writer => writer.SaveCommand(It.IsAny<string>()))
                     .Callback<string>(command => savedCommands.Add(command));
                 
                 foreach (string command in commands)
                 {
-                    mockStorageWriter.Object.SaveCommandAsync(command);
+                    mockStorageWriter.Object.SaveCommand(command);
                 }
                 
                 Assert.Equal(commands, savedCommands);

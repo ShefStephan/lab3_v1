@@ -4,6 +4,10 @@ using Lab1_v2.ScreenNotificator;
 using Lab1_v2.Storage;
 using Lab1_v2.TurtleObject;
 using Lab1_v2.DataBase;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Lab1_v2;
 
@@ -33,7 +37,42 @@ internal class Program
             context.InitializeDatabase();
         }
         
+        var builder = WebApplication.CreateBuilder(args);
         
+        // Добавление сервисов для API
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        
+        // Добавление контекста базы данных
+        builder.Services.AddDbContext<TurtleContext>(options =>
+            options.UseSqlite("Data Source=my.db"));
+
+        var app = builder.Build();
+
+        // Пересоздание базы данных при старте API
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<TurtleContext>();
+            // Удаляет и создает базу данных заново каждый раз при запуске
+            dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
+        }
+        
+        // Настройка Swagger (доступно только в режиме разработки)
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        // Стандартные middleware для API
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        // Запуск API
+        app.Run();
         
         
         // список команда без аргументов и с аргументами

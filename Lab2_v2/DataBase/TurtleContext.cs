@@ -16,7 +16,7 @@ public class TurtleContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=mydb.db"); //move connection string to appsetting.json
+        optionsBuilder.UseSqlite("Data Source=my.db"); //move connection string to appsetting.json
     }
     
     
