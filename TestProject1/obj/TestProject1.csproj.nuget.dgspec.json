@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\TestProject1\\TestProject1.csproj": {}
+    "C:\\Users\\Stephan\\RiderProjects\\Lab3\\TestProject1\\TestProject1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj": {
+    "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj",
+        "projectUniqueName": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj",
         "projectName": "Lab2_v2",
-        "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj",
+        "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj",
         "packagesPath": "C:\\Users\\Stephan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\obj\\",
+        "outputPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Stephan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -83,14 +83,14 @@
         }
       }
     },
-    "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\TestProject1\\TestProject1.csproj": {
+    "C:\\Users\\Stephan\\RiderProjects\\Lab3\\TestProject1\\TestProject1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\TestProject1\\TestProject1.csproj",
+        "projectUniqueName": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\TestProject1\\TestProject1.csproj",
         "projectName": "TestProject1",
-        "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\TestProject1\\TestProject1.csproj",
+        "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\TestProject1\\TestProject1.csproj",
         "packagesPath": "C:\\Users\\Stephan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\TestProject1\\obj\\",
+        "outputPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\TestProject1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Stephan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -108,8 +108,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj": {
-                "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj"
+              "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj": {
+                "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj"
               }
             }
           }

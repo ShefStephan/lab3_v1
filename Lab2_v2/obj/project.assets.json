@@ -2612,11 +2612,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj",
+      "projectUniqueName": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj",
       "projectName": "Lab2_v2",
-      "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj",
+      "projectPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj",
       "packagesPath": "C:\\Users\\Stephan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\obj\\",
+      "outputPath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Stephan\\AppData\\Roaming\\NuGet\\NuGet.Config",

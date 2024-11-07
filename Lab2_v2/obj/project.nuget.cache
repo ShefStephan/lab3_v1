@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4Z1d5lLbBDU=",
+  "dgSpecHash": "n/o14T1jvYs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Stephan\\RiderProjects\\Lab2_v2\\Lab2_v2\\Lab2_v2.csproj",
+  "projectFilePath": "C:\\Users\\Stephan\\RiderProjects\\Lab3\\Lab2_v2\\Lab2_v2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Stephan\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Stephan\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
