@@ -22,7 +22,6 @@ internal class Program
         var turtle = new Turtle();
         var reader = new CommandReader();
         var invoker = new CommandInvoker(turtle);
-        
         var dbReader = new DataBaseReader();
         var dbWriter = new DataBaseWriter();
         var dbManager = new CommandManager(dbReader);
@@ -38,36 +37,51 @@ internal class Program
         }
         
         var builder = WebApplication.CreateBuilder(args);
+        // устанавливаем режим разработчика
+        builder.Environment.EnvironmentName = Environments.Development;
+        
+        // Регистрация сервисов в DI контейнере
+        builder.Services.AddScoped<TurtleContext>();
+        builder.Services.AddScoped<CommandManager>();
+        builder.Services.AddScoped<CommandInvoker>();
+        builder.Services.AddScoped<DataBaseWriter>();
+        builder.Services.AddScoped<Notificator>();
+        builder.Services.AddScoped<Turtle>();
+        builder.Services.AddScoped<DataBaseReader>();
+        builder.Services.AddScoped<NewFigureChecker>();
         
         // Добавление сервисов для API
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
-        // Добавление контекста базы данных
         builder.Services.AddDbContext<TurtleContext>(options =>
             options.UseSqlite("Data Source=my.db"));
 
         var app = builder.Build();
-
-        // Пересоздание базы данных при старте API
+        
         using (var scope = app.Services.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<TurtleContext>();
-            // Удаляет и создает базу данных заново каждый раз при запуске
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
+            dbContext.InitializeDatabase();
+            
         }
         
-        // Настройка Swagger (доступно только в режиме разработки)
+        // чтобы сразу открывался swagger
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = ""; 
+            });
         }
 
         // Стандартные middleware для API
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();
 
