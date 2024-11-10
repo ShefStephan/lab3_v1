@@ -23,7 +23,6 @@ public class TurtleController: ControllerBase
     private readonly NewFigureChecker dbChecker;
 
     public TurtleController(
-        TurtleContext context,
         CommandManager dbManager,
         CommandInvoker invoker,
         DataBaseWriter dbWriter,
@@ -33,7 +32,6 @@ public class TurtleController: ControllerBase
         NewFigureChecker dbChecker
         )
     {
-        this.context = context;
         this.dbManager = dbManager;
         this.invoker = invoker;
         this.dbWriter = dbWriter;
@@ -47,46 +45,57 @@ public class TurtleController: ControllerBase
     [HttpPost]
     public async Task<IActionResult> ExecuteCommand([FromBody] TurtleCommandRequest commandRequest)
     {
-            
-            
-        // Проверяем, есть ли аргументы для команды
-        if (string.IsNullOrEmpty(commandRequest.Parameter))
+        try
         {
-            ICommandsWithoutArgs command = (ICommandsWithoutArgs)dbManager.DefineCommand(commandRequest.Command);
-                
-            if (command == null)
+            if (string.IsNullOrEmpty(commandRequest.Parameter))
             {
-                return BadRequest("Invalid command");
+                ICommandsWithoutArgs command = (ICommandsWithoutArgs)dbManager.DefineCommand(commandRequest.Command);
+                invoker.Invoke(command);
             }
-            invoker.Invoke(command);
-        }
-        else
-        {
-            ICommandsWithArgs command = (ICommandsWithArgs)dbManager.DefineCommand(commandRequest.Command);
-                
-            if (command == null)
+            else
             {
-                return BadRequest("Invalid command with argument");
+                ICommandsWithArgs command = (ICommandsWithArgs)dbManager.DefineCommand(commandRequest.Command);
+                invoker.Invoke(command, commandRequest.Parameter);
             }
-                
-            invoker.Invoke(command, commandRequest.Parameter);
+
+            await dbWriter.SaveCommand(commandRequest.Command + " " + commandRequest.Parameter);
+            await dbWriter.SaveTurtleStatus(turtle);
+            await dbChecker.Check();
+
+            return Ok(dbNotificator.
+                GetNotification(commandRequest.Command));
         }
 
-        // Сохраняем команду в базе данных
-        await dbWriter.SaveCommand(commandRequest.Command);
-        await dbWriter.SaveTurtleStatus(turtle);
+        catch (InvalidCastException ex)
+        {
+            return BadRequest("Invalid argument");
+        }
 
-        // Отправляем уведомление о выполнении команды
-        await dbNotificator.SendNotification(commandRequest.Command);
+        catch (IndexOutOfRangeException ex)
+        {
+            return BadRequest("Invalid argument, or argument doesn`t exist");
+        }
 
-        // Проверка на образование новой фигуры
-        await dbChecker.Check();
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound("Invalid command, or command doesn`t exist");
+        }
 
-        // Возвращаем актуальное состояние черепашки в ответе
-        return Ok(await dbReader.GetTurtleStatus());
+        catch (FormatException ex)
+        {
+            return BadRequest("Invalid argument, please try again or check command list");
+        }
+
+        catch (NullReferenceException ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+        
     }
-    
-    
+
+
+
+
     [HttpGet]
     public IActionResult GetStatus()
     {

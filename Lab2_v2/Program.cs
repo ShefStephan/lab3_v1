@@ -1,5 +1,6 @@
 ﻿using Lab1_v2.CommandsInterface;
 using Lab1_v2.CommandsOperation;
+using Lab1_v2.Controllers;
 using Lab1_v2.ScreenNotificator;
 using Lab1_v2.Storage;
 using Lab1_v2.TurtleObject;
@@ -27,6 +28,8 @@ internal class Program
         var dbManager = new CommandManager(dbReader);
         var dbNotificator = new Notificator(dbReader);
         var dbChecker = new NewFigureChecker(turtle, dbWriter, dbReader);
+        var turtleController =
+            new TurtleController(dbManager, invoker, dbWriter, dbNotificator, turtle, dbReader, dbChecker);
         
         // пересоздание базы данных
         await using (var context = new TurtleContext())
@@ -37,18 +40,19 @@ internal class Program
         }
         
         var builder = WebApplication.CreateBuilder(args);
-        // устанавливаем режим разработчика
         builder.Environment.EnvironmentName = Environments.Development;
         
         // Регистрация сервисов в DI контейнере
-        builder.Services.AddScoped<TurtleContext>();
-        builder.Services.AddScoped<CommandManager>();
-        builder.Services.AddScoped<CommandInvoker>();
-        builder.Services.AddScoped<DataBaseWriter>();
-        builder.Services.AddScoped<Notificator>();
-        builder.Services.AddScoped<Turtle>();
-        builder.Services.AddScoped<DataBaseReader>();
-        builder.Services.AddScoped<NewFigureChecker>();
+        builder.Services.AddSingleton<TurtleContext>();
+        builder.Services.AddSingleton<CommandManager>();
+        builder.Services.AddSingleton<CommandInvoker>();
+        builder.Services.AddSingleton<DataBaseWriter>();
+        builder.Services.AddSingleton<IDataBaseWriter, DataBaseWriter>();
+        builder.Services.AddSingleton<Notificator>();
+        builder.Services.AddSingleton<Turtle>();
+        builder.Services.AddSingleton<DataBaseReader>();
+        builder.Services.AddSingleton<IDataBaseReader, DataBaseReader>();
+        builder.Services.AddSingleton<NewFigureChecker>();
         
         // Добавление сервисов для API
         builder.Services.AddControllers();
@@ -66,7 +70,6 @@ internal class Program
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             dbContext.InitializeDatabase();
-            
         }
         
         // чтобы сразу открывался swagger
@@ -79,13 +82,8 @@ internal class Program
                 c.RoutePrefix = ""; 
             });
         }
-
-        // Стандартные middleware для API
-        // app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();
-
-        // Запуск API
         app.Run();
         
         
@@ -111,64 +109,64 @@ internal class Program
         Console.WriteLine("To leave the game, enter - exit");
 
 
-        while (true)
-        {
-            try
-            {
-                userCommand = reader.Read();
-
-                if (userCommand == Exit)
-                {
-                    break;
-                }
-
-                if (commWithoutArgsList.Contains(userCommand))
-                {
-                    ICommandsWithoutArgs command = (ICommandsWithoutArgs)dbManager.DefineCommand(userCommand);
-                    invoker.Invoke(command);
-                    await dbWriter.SaveCommand(userCommand);
-                }
-                else
-                {
-                    ICommandsWithArgs command = (ICommandsWithArgs)dbManager.DefineCommand(userCommand.Split(' ')[0]);
-                    invoker.Invoke(command, userCommand.Split(' ')[1]);
-                    await dbWriter.SaveCommand(userCommand);
-                }
-
-                await dbWriter.SaveTurtleStatus(turtle);
-                // вывод соообщение после испольнения команды
-                await dbNotificator.SendNotification(userCommand);
-
-                // проверка на образование новой фигуры
-                await dbChecker.Check();
-            }
-
-            // возможные ошибки в ходе выполнения
-            catch (InvalidCastException ex)
-            {
-                Console.WriteLine("Invalid argument");
-            }
-
-            catch (IndexOutOfRangeException ex)
-            {
-                Console.WriteLine("Invalid argument, or argument doesn`t exist");
-            }
-
-            catch (KeyNotFoundException ex)
-            {
-                Console.WriteLine("Invalid command, or command doesn`t exist");
-            }
-
-            catch (FormatException ex)
-            {
-                Console.WriteLine("Invalid argument, please try again or check command list");
-            }
-            
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine("empty...");
-            }
-        }
+        // while (true)
+        // {
+        //     try
+        //     {
+        //         userCommand = reader.Read();
+        //
+        //         if (userCommand == Exit)
+        //         {
+        //             break;
+        //         }
+        //
+        //         if (commWithoutArgsList.Contains(userCommand))
+        //         {
+        //             ICommandsWithoutArgs command = (ICommandsWithoutArgs)dbManager.DefineCommand(userCommand);
+        //             invoker.Invoke(command);
+        //             await dbWriter.SaveCommand(userCommand);
+        //         }
+        //         else
+        //         {
+        //             ICommandsWithArgs command = (ICommandsWithArgs)dbManager.DefineCommand(userCommand.Split(' ')[0]);
+        //             invoker.Invoke(command, userCommand.Split(' ')[1]);
+        //             await dbWriter.SaveCommand(userCommand);
+        //         }
+        //
+        //         await dbWriter.SaveTurtleStatus(turtle);
+        //         // вывод соообщение после испольнения команды
+        //         await dbNotificator.SendNotification(userCommand);
+        //
+        //         // проверка на образование новой фигуры
+        //         await dbChecker.Check();
+        //     }
+        //
+        //     // возможные ошибки в ходе выполнения
+        //     catch (InvalidCastException ex)
+        //     {
+        //         Console.WriteLine("Invalid argument");
+        //     }
+        //
+        //     catch (IndexOutOfRangeException ex)
+        //     {
+        //         Console.WriteLine("Invalid argument, or argument doesn`t exist");
+        //     }
+        //
+        //     catch (KeyNotFoundException ex)
+        //     {
+        //         Console.WriteLine("Invalid command, or command doesn`t exist");
+        //     }
+        //
+        //     catch (FormatException ex)
+        //     {
+        //         Console.WriteLine("Invalid argument, please try again or check command list");
+        //     }
+        //     
+        //     catch (NullReferenceException ex)
+        //     {
+        //         Console.WriteLine("empty...");
+        //     }
+        // }
 
         Console.WriteLine("GAME END");
 

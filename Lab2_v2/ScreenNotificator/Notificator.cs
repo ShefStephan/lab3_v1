@@ -62,5 +62,46 @@ namespace Lab1_v2.ScreenNotificator
             }
            
         }
-    }
+        
+        public async Task<List<string>> GetNotification(string command)
+        {
+            List<string> result = new List<string>();
+            if (command == "history")
+            {
+                var commands = await dbReader.GetCommands();
+                foreach (var comm in commands)
+                {
+                    result.Add(comm.CommandText);
+                }
+            }
+
+            else if (command == "listfigures")
+            {
+                var figures = await dbReader.GetFigures();
+                if (figures.Count == 0)
+                {
+                    return null;
+                }
+                foreach (var figure in figures)
+                {
+                    result.Add(figure.FigureType + " " + figure.Parameters);
+                }
+            }
+            else
+            {
+                var turtleStatus = await dbReader.GetTurtleStatus();
+                if (turtleStatus != null)
+                {
+                    result.Add(Math.Round(turtleStatus.Xcoors, 2).ToString());
+                    result.Add(Math.Round(turtleStatus.Ycoors, 2).ToString());
+                    result.Add(turtleStatus.PenCondition);
+                    result.Add(turtleStatus.Angle.ToString());
+                    result.Add(turtleStatus.Color);
+                    result.Add(turtleStatus.Width.ToString());
+                }
+            }
+
+            return result;
+            }
+        }
 }
