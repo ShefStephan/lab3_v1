@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Lab1_v2;
 
-internal class Program
+public class Program
 {
     // файлы для записи команд черепашки
     private const string Exit = "exit";
@@ -43,7 +43,7 @@ internal class Program
         builder.Environment.EnvironmentName = Environments.Development;
         
         // Регистрация сервисов в DI контейнере
-        builder.Services.AddSingleton<TurtleContext>();
+        builder.Services.AddScoped<TurtleContext>();
         builder.Services.AddSingleton<CommandManager>();
         builder.Services.AddSingleton<CommandInvoker>();
         builder.Services.AddSingleton<DataBaseWriter>();
@@ -170,6 +170,6 @@ internal class Program
 
         Console.WriteLine("GAME END");
 
-        ;
+        
     }
 }
