@@ -78,7 +78,7 @@ public class TurtleControllerTests : IClassFixture<WebApplicationFactory<Lab1_v2
     
     
     [Fact]
-    public async Task ExecuteCommand_WithInvalidArgument_ReturnsNotFound()
+    public async Task ExecuteCommand_WithInvalidArgument_ReturnsBadRequest()
     {
         var invalidCommandRequest = new { Command = "move", Parameter = "gggg" };
         var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(invalidCommandRequest), Encoding.UTF8, "application/json");
