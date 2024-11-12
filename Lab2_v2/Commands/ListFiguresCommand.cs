@@ -13,8 +13,8 @@ namespace Lab1_v2.Commands
     public class ListFiguresCommand : ICommandsWithoutArgs
     {
         
-        private DataBaseReader dbReader;
-        public ListFiguresCommand(DataBaseReader reader)
+        private IDataBaseReader dbReader;
+        public ListFiguresCommand(IDataBaseReader reader)
         {
             dbReader = reader;
         }

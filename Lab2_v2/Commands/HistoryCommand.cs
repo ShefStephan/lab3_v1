@@ -12,8 +12,8 @@ namespace Lab1_v2.Commands
 {
     public class HistoryCommand : ICommandsWithoutArgs
     {
-        private DataBaseReader dbReader;
-        public HistoryCommand(DataBaseReader reader)
+        private IDataBaseReader dbReader;
+        public HistoryCommand(IDataBaseReader reader)
         {
             dbReader = reader;
         }

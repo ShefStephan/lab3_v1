@@ -14,9 +14,9 @@ namespace Lab1_v2.CommandsOperation
     public class CommandManager
     {
         
-        private DataBaseReader dbReader;
+        private IDataBaseReader dbReader;
         
-        public CommandManager(DataBaseReader reader)
+        public CommandManager(IDataBaseReader reader)
         {
             dbReader = reader;
             FillDict();

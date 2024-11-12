@@ -9,26 +9,23 @@ using Microsoft.EntityFrameworkCore;
 namespace Lab1_v2.Controllers;
 
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class TurtleController: ControllerBase
 {
-    private readonly TurtleContext context;
     private readonly CommandManager dbManager;
     private readonly CommandInvoker invoker;
-    private readonly DataBaseWriter dbWriter;
+    private readonly IDataBaseWriter dbWriter;
     private readonly Notificator dbNotificator;
     private readonly Turtle turtle;
-    private readonly DataBaseReader dbReader;
     private readonly NewFigureChecker dbChecker;
 
     public TurtleController(
         CommandManager dbManager,
         CommandInvoker invoker,
-        DataBaseWriter dbWriter,
+        IDataBaseWriter dbWriter,
         Notificator dbNotificator,
         Turtle turtle,
-        DataBaseReader dbReader,
         NewFigureChecker dbChecker
         )
     {
@@ -37,7 +34,6 @@ public class TurtleController: ControllerBase
         this.dbWriter = dbWriter;
         this.dbNotificator = dbNotificator;
         this.turtle = turtle;
-        this.dbReader = dbReader;
         this.dbChecker = dbChecker;
     }
 
@@ -101,8 +97,4 @@ public class TurtleController: ControllerBase
     {
         return Ok("статус");
     }
-    
-    
-    
-    
 }

@@ -12,9 +12,9 @@ namespace Lab1_v2.ScreenNotificator
     public class Notificator
     {
         
-        private DataBaseReader dbReader;
+        private IDataBaseReader dbReader;
         private TurtleStatus? turtleStatus;
-        public Notificator(DataBaseReader reader)
+        public Notificator(IDataBaseReader reader)
         {
             dbReader = reader;
         }
